@@ -3,7 +3,7 @@ const COLORS = {
   primary: "#FFDD00",
   secondary: "#444262",
   tertiary: "#FF7754",
-
+  error: "#EF1010",
   gray: "#1F222A",
   gray2: "#C1C0C8",
   borderGray: "#7a7a7a",

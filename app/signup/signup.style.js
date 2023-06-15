@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    height: 200,
+    height: 150,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
@@ -86,6 +86,38 @@ const styles = StyleSheet.create({
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
     paddingLeft: 10
+  
+  },
+
+  textColor4: {
+    color: COLORS.borderGray,
+    fontFamily: FONT.medium,
+    fontSize: SIZES.large,
+    paddingLeft: 10
+  
+  },
+  inputs:{
+    width: "80%",
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 20,
+    fontFamily: FONT.medium,
+    color: COLORS.white,
+  },
+  inputContainer: {
+    width: "80%",
+    backgroundColor: COLORS.gray,
+    borderRadius: SIZES.medium,
+    borderColor: COLORS.borderGray,
+    borderWidth: 1,
+    padding: SIZES.small,
+    marginTop: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "row",
+    
   },
   
   
@@ -116,6 +148,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.large,
   },
   button: {
+    marginTop: 20,
     width: "80%",
     backgroundColor: COLORS.primary,
     borderRadius: SIZES.medium,
@@ -129,6 +162,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
+  border: {
+    width: "80%",
+    marginBottom: SIZES.medium,
+    borderWidth: 1,
+    borderColor: COLORS.borderGray,
+  },
+  
+  borderMax: {
+    width: "100%",
+    marginBottom: SIZES.medium,
+    borderWidth: 1,
+    borderColor: COLORS.borderGray,
+  },
+
   changeButton: {
     
     justifyContent: "center",
@@ -140,6 +187,12 @@ const styles = StyleSheet.create({
     fontFamily: FONT.regular,
     fontSize: SIZES.large,
   },
+  errorText: {
+    color: COLORS.error,
+    fontFamily: FONT.regular,
+    fontSize: SIZES.small,
+    textAlign: "center",
+  },
   buttonsContainer: {
     borderTopWidth: 1,
     borderTopColor: COLORS.borderGray,
@@ -149,8 +202,46 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    marginTop: 220,
+    marginTop: 170,
   },
+  learningbox: {
+    width: "100%",
+    height: 100,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop:140,
+    marginBottom: 180,
+    
+  },
+  optionContainer: {
+    marginTop: 20,
+    width: "80%",
+    backgroundColor: COLORS.gray,
+    borderRadius: SIZES.medium,
+    borderColor: COLORS.gray,
+    borderWidth: 1,
+    padding: 10,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+
+  optionContainer2: {
+    marginTop: 20,
+    width: "80%",
+    backgroundColor: COLORS.gray,
+    borderRadius: SIZES.medium,
+    borderColor: COLORS.gray,
+    borderWidth: 1,
+    padding: 10,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  
 });
 
 export default styles;

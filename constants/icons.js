@@ -14,7 +14,15 @@ import fr from "../assets/icons/fr.png";
 import es from "../assets/icons/es.png";
 import de from "../assets/icons/de.png";
 import ar from "../assets/icons/ar.png";
+import level1 from "../assets/icons/level1.png";
+import level2 from "../assets/icons/level2.png";
+import level3 from "../assets/icons/level3.png";
+import level4 from "../assets/icons/level4.png";
 export default {
+  level1,
+  level2,
+  level3,
+  level4,
   es,
   de,
   ar,

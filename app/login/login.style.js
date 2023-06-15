@@ -43,6 +43,12 @@ const styles = StyleSheet.create({
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
   },
+  errorText: {
+    color: COLORS.error,
+    fontFamily: FONT.regular,
+    fontSize: SIZES.small,
+    textAlign: "center",
+  },
   inputs:{
     width: "80%",
     height: 30,

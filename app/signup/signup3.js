@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Image } from 're
 import { Stack, useRouter } from 'expo-router';
 import { icons, COLORS } from '../../constants';
 import styles from './signup.style';
-
+import SafeAreaWrap from '../SafeAreaWrap'
 const Signup3 = () => {
   const router = useRouter();
   const [fullName, setFullName] = useState('');
@@ -52,14 +52,9 @@ const Signup3 = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
-      <Stack.Screen
-        options={{
-          headerStyle: { backgroundColor: COLORS.background },
-          headerShadowVisible: false,
-        }}
-      />
+    <SafeAreaWrap>
       <View style={styles.container}>
+        
         <View>
           <Text style={styles.headerText}>Create Your Profile</Text>
         {errors.confirmPassword || errors.password || errors.fullName || errors.email ? (<Text style={styles.errorText}>{error}</Text> ) : null}
@@ -120,7 +115,7 @@ const Signup3 = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+      </SafeAreaWrap>
   );
 };
 

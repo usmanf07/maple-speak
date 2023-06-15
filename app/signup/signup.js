@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, SafeAreaView, Imag
 import { Stack, useRouter } from 'expo-router';
 import { icons, COLORS } from '../../constants';
 import styles from './signup.style';
-
+import SafeAreaWrap from '../SafeAreaWrap';
 const Signup = () => {
   const router = useRouter();
   const [languageList, setLanguageList] = useState(['English', 'French', 'Spanish', 'German', 'Arabic']);
@@ -15,13 +15,7 @@ const Signup = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
-      <Stack.Screen
-        options={{
-          headerStyle: { backgroundColor: COLORS.background },
-          headerShadowVisible: false,
-        }}
-      />
+    <SafeAreaWrap>
       <View style={styles.container}>
         <View style={styles.header}>
           <Image source={icons.mapie} style={styles.image} />
@@ -71,7 +65,7 @@ const Signup = () => {
           <Text style={styles.buttonText1}>Continue</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+      </SafeAreaWrap>
   );
 };
 

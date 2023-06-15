@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, SafeAreaView, Image } from 'react-native'
 import { Stack, useRouter } from 'expo-router';
 import { icons, COLORS } from '../../constants';
 import styles from './signup.style';
-
+import SafeAreaWrap from '../SafeAreaWrap'
 const Signup1 = () => {
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState(null);
@@ -13,13 +13,7 @@ const Signup1 = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
-      <Stack.Screen
-        options={{
-          headerStyle: { backgroundColor: COLORS.background },
-          headerShadowVisible: false,
-        }}
-      />
+    <SafeAreaWrap>
       <View style={styles.container}>
         <View style={styles.header}>
           <Image source={icons.mapie} style={styles.image} />
@@ -76,7 +70,7 @@ const Signup1 = () => {
           <Text style={styles.buttonText1}>Continue</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+      </SafeAreaWrap>
   );
 };
 

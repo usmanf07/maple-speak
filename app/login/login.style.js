@@ -5,10 +5,13 @@ import { COLORS, FONT, SIZES } from "../../constants";
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    flex: 1,
+  },
+  contentContainer: {
+    width: "100%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    
   },
   containerText: {
     marginTop: 10,
@@ -39,6 +42,13 @@ const styles = StyleSheet.create({
   },
   textColor2: {
     marginTop: 30,
+    color: COLORS.primary,
+    fontFamily: FONT.bold,
+    fontSize: SIZES.large,
+  },
+  textColor7: {
+    marginTop: 30,
+    marginBottom: 30,
     color: COLORS.primary,
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
@@ -76,12 +86,14 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: COLORS.borderGray,
     paddingTop: 20,
+    paddingBottom: 20, // Add paddingBottom to create space between the buttons and the bottom of the screen
     width: "100%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    marginTop: 220,
+    position: "absolute", // Add position: "absolute" to position the container relative to the screen
+    bottom: 0, // Position the container at the bottom of the screen
   },
   button: {
     width: "80%",

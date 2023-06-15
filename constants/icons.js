@@ -18,7 +18,15 @@ import level1 from "../assets/icons/level1.png";
 import level2 from "../assets/icons/level2.png";
 import level3 from "../assets/icons/level3.png";
 import level4 from "../assets/icons/level4.png";
+import diamond from "../assets/icons/diamond.png";
+import profile from "../assets/icons/profile.png";
+import home from "../assets/icons/home.png";
+import leaderboard from "../assets/icons/leaderboard.png";
 export default {
+  leaderboard,
+  home,
+  profile,
+  diamond,
   level1,
   level2,
   level3,

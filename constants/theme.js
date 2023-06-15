@@ -5,11 +5,14 @@ const COLORS = {
   tertiary: "#FF7754",
   error: "#EF1010",
   gray: "#1F222A",
+  footerGray: "#2a2e38",
   gray2: "#C1C0C8",
   borderGray: "#7a7a7a",
   white: "#F3F4F8",
   lightWhite: "#FAFAFC",
+  ip: "192.168.1.4",
 };
+
 
 const FONT = {
   regular: "DMRegular",

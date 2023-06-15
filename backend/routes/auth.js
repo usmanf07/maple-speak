@@ -1,28 +1,30 @@
 const router = require('express').Router();
-const session = require('express-session');
+const jwt = require('jsonwebtoken');
 const user = require('../models/user.model');
+
 router.route('/').post(async (req, res) => {
-    const { email, password } = req.body;
-    
-    try {
-      const myu = await user.findOne({ email: email });
-      
-      if (myu) {
-        if (password === myu.password) {
-          req.session.id = myu.email;
-          const responseObj = { sessionId: req.session.id, email: myu.email };
-          res.json(responseObj);
-        } else {
-            res.status(401).json("error");
-        }
+  const { email, password } = req.body;
+ // console.log(email, password);
+  try {
+    const myu = await user.findOne({ email: email });
+
+    if (myu) {
+      if (password === myu.password) {
+        const token = jwt.sign({ uid: myu._id }, 'JHG78s2jhsgVBNCS7TFnchjgrfuy', {
+          expiresIn: '1h', 
+        });
+        const responseObj = { token: token };
+        res.json(responseObj);
       } else {
-        res.status(401).json("error");
+        res.status(401).json("Invalid Email/Password");
       }
-    } catch (e) {
-      res.status(505).json("error");
-      console.log(e);
+    } else {
+      res.status(401).json("Invalid Email/Password");
     }
-  });
-  
+  } catch (e) {
+    res.status(500).json("error");
+    console.log(e);
+  }
+});
 
 module.exports = router;

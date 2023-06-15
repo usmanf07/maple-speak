@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.small,
     textAlign: "center",
   },
+  
   buttonsContainer: {
     borderTopWidth: 1,
     borderTopColor: COLORS.borderGray,

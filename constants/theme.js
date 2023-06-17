@@ -10,7 +10,7 @@ const COLORS = {
   borderGray: "#7a7a7a",
   white: "#F3F4F8",
   lightWhite: "#FAFAFC",
-  ip: "192.168.1.4",
+  ip: "192.168.1.14",
 };
 
 

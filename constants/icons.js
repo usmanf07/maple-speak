@@ -22,7 +22,11 @@ import diamond from "../assets/icons/diamond.png";
 import profile from "../assets/icons/profile.png";
 import home from "../assets/icons/home.png";
 import leaderboard from "../assets/icons/leaderboard.png";
+import vocab from "../assets/icons/vocab.png";
+import vocab2 from "../assets/icons/vocab2.jpg";
 export default {
+  vocab,
+  vocab2,
   leaderboard,
   home,
   profile,

@@ -30,8 +30,13 @@ app.get('/', (req, res) => {
 const auth = require('./routes/auth');
 app.use('/auth', auth);
 
+
+const levels = require('./routes/levels');
+app.use('/levels', levels);
+
 const users = require('./routes/verify');
 app.use('/users', users);
+
 
 app.listen(8000, () => {
     console.log("Server is running on port 8000");

@@ -5,7 +5,7 @@ import {icons} from '../../constants'
 import styles from './loadingScreen.style'
 import SafeAreaWrap from '../SafeAreaWrap';
 
-const loadingScreen = ({levelName, levelNo}) => {
+const LoadingScreen = ({levelName, levelNo}) => {
   const router = useRouter();
   
   return (
@@ -18,13 +18,13 @@ const loadingScreen = ({levelName, levelNo}) => {
         <Image source={icons.mapie} style={styles.image} />
       </View>
       <View>
-        <Text style={styles.headerText}>{levelName}</Text>
+        <Text style={styles.headerText}>MapleSpeak</Text>
       </View>
-      <Text style={styles.textColor}>{levelNo}</Text>
+      <Text style={styles.textColor}></Text>
       <ActivityIndicator size="large" color="grey" />
     </View>
     </SafeAreaWrap>
   )
 }
 
-export default loadingScreen
+export default LoadingScreen

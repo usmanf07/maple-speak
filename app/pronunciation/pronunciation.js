@@ -5,13 +5,14 @@ import Footer from '../footer/footer';
 import LevelCard from '../levelCard/levelCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const STORAGE_KEY = '@pronunciationLevels';
-import { Stack, useRouter, useNavigation } from 'expo-router';
+import { useRouter, useLocalSearchParams, Link } from "expo-router";
+
 
 // Component for the main screen
 const MainScreen = () => {
     const [pronunciationLevels, setPronunciationLevels] = useState([]);
     const router = useRouter();
-    const navigation = useNavigation();
+    const params = useLocalSearchParams();
     useEffect(() => {
       getPronunciationLevelsFromStorage();
     }, []);
@@ -46,10 +47,9 @@ const MainScreen = () => {
   );
 
   const handleLevelPress = (level) => {
-//  console.log('LevelPress', level);
-//  console.log('router', router);
-navigation.navigate("../gameScreen/gameScreen", { selectedLevel: level });
- // router.push( "../gameScreen/gameScreen", { selectedLevel: level });
+    
+    //router.push({ pathname: "../loadingScreen/loadingScreen"});
+    router.push({ pathname: "../gameScreen/gameScreen", params: { levelId: level._id }});
    };
 
   return (

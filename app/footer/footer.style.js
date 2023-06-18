@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     flexDirection: "row",
     display: "flex",
+  
   },
   icon: {
     width: 30,

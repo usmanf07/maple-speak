@@ -1,92 +1,221 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { Button, View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import axios from 'axios';
+import { COLORS, FONT, SIZES } from "../../constants";
+import LoadingScreen from '../loadingScreen/loadingScreen';
+import SafeAreaDash from '../SafeAreaDash';
+import Footer from '../footer/footer';
+import { Audio } from 'expo-av';
 
-const GameScreen = ({ selectedLevel }) => {
-    console.log('GameScreen', selectedLevel);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
-    
-  const handleAnswer = (selectedAnswer) => {
-    // Check if the selected answer is correct
-    if (selectedAnswer === selectedLevel.answers[currentQuestionIndex]) {
-      // Update the score
-      setScore(score + 1);
+const GameScreen = () => {
+  const params = useLocalSearchParams();
+  const levelID = params.levelId;
+  const [loading, setLoading] = useState(true);
+  const [levelDetails, setLevelDetails] = useState(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [voiceLevel, setVoiceLevel] = useState(0);
+  const [recording, setRecording] = React.useState();
+  const [message, setMessage] = React.useState("");
+  const [userRecording, setUserRecording] = React.useState([]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      fetchLevelDetails();
+    }, 1000); // 5 seconds timeout
+
+    return () => {
+      clearTimeout(timeoutId); // Clear the timeout if the component unmounts before the timeout expires
+    };
+  }, []);
+
+  
+  const fetchLevelDetails = async () => {
+    try {
+      const response = await axios.get(`http://${COLORS.ip}:8000/levels/getdetails/${levelID}`);
+      console.log('Level Details:', response.data);
+      setLevelDetails(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error loading level details:', error);
     }
-
-    // Move to the next question
-    setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
-  const renderQuestion = () => {
-    // if (currentQuestionIndex >= selectedLevel.questions.length) {
-    //   // All questions have been answered
-    //   return (
-    //     <View style={styles.resultContainer}>
-    //       <Text style={styles.resultText}>Game Over</Text>
-    //       <Text style={styles.resultText}>Score: {score}</Text>
-    //     </View>
-    //   );
-    // }
+   async function startRecording() {
+    try {
+      const permission = await Audio.requestPermissionsAsync();
 
-    // const currentQuestion = selectedLevel.questions[currentQuestionIndex];
+      if (permission.status === "granted") {
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: true,
+          playsInSilentModeIOS: true
+        });
+        
+        const { recording } = await Audio.Recording.createAsync(
+          Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+        );
 
-    return (
-      <View style={styles.questionContainer}>
-        <Text style={styles.questionText}>GameScreen</Text>
-        {/* <Text style={styles.questionText}>{currentQuestion}</Text>
-        <View style={styles.answersContainer}>
-          {selectedLevel.answers.map((answer, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.answerButton}
-              onPress={() => handleAnswer(answer)}
-            >
-              <Text style={styles.answerText}>{answer}</Text>
-            </TouchableOpacity>
-          ))}
-        </View> */}
-      </View>
-    );
+        setRecording(recording);
+      } else {
+        setMessage("Please grant permission to app to access microphone");
+      }
+    } catch (err) {
+      console.error('Failed to start recording', err);
+    }
+  }
+
+  async function stopRecording() {
+  
+    await recording.stopAndUnloadAsync();
+
+  
+    const { sound, status } = await recording.createNewLoadedSoundAsync();
+    let newUserRecording = {};
+    newUserRecording.sound = sound;
+    newUserRecording.duration = getDurationFormatted(status.durationMillis);
+    newUserRecording.file = recording.getURI();
+   
+   setUserRecording(newUserRecording);
+  }
+  
+  function getDurationFormatted(millis) {
+    const minutes = millis / 1000 / 60;
+    const minutesDisplay = Math.floor(minutes);
+    const seconds = Math.round((minutes - minutesDisplay) * 60);
+    const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
+    return `${minutesDisplay}:${secondsDisplay}`;
+  }
+
+  function getRecordingLine() {
+    if (userRecording.length !== 0 && !isRecording) {
+      return (
+        <View style={styles.row}>
+          <Text style={styles.recordPlayText}>Your Attempt - {userRecording.duration}</Text>
+          <Button style={styles.button} onPress={() => userRecording.sound.replayAsync()} title="Play"></Button>
+        </View>
+      );
+    }
+    return null;
+  }
+  
+
+
+  const handleRecordButtonPress = () => {
+    if (isRecording) {
+      stopRecording();
+      setIsRecording(false);
+      // Reset voice level to 0
+      setVoiceLevel(0);
+    } else {
+      // Start recording logic
+      startRecording();
+      setIsRecording(true);
+    }
   };
 
-  return <View style={styles.container}>{renderQuestion()}</View>;
+  return (
+    <SafeAreaDash>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <Text style={styles.questionText}>Pronounce the Following Sentence</Text>
+            </View>
+            <View style={styles.border} />
+            <View style={styles.questionContainer}>
+                <Text style={styles.questionText}>{levelDetails.questions[0]}</Text>
+              </View>
+            <View style={styles.contentContainer}>
+              
+              <View style={styles.recordingLevels}>
+                <View style={[styles.voiceLevelBar, { height: voiceLevel }]} />
+              </View>
+              <TouchableOpacity
+                style={[styles.recordButton, isRecording && styles.recordingButton]}
+                onPress={handleRecordButtonPress}
+              >
+                
+      <StatusBar style="auto" />
+                <Text style={styles.recordButtonText}>{isRecording ? 'Stop' : 'Record'}</Text>
+              </TouchableOpacity>
+              {getRecordingLine()}
+            </View>
+          </View>
+          <Footer />
+        </>
+      )}
+    </SafeAreaDash>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: COLORS.gray,
+  },
+  header: {
+    width: '100%',
+    height: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    color: '#000',
+  },
+  border: {
+    width: '90%',
+    borderRadius: SIZES.medium,
+    borderColor: COLORS.borderGray,
+    borderWidth: 1,
+  },
+  contentContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   questionContainer: {
-    
     alignItems: 'center',
   },
   questionText: {
-    fontSize: 20,
-    marginBottom: 20,
+    fontFamily: FONT.bold,
+    fontSize: SIZES.xLarge,
+    marginTop: 20,
+    color: COLORS.white,
   },
-  answersContainer: {
-    flexDirection: 'row',
+  recordingLevels: {
+    width: '100%',
+    height: 20,
+    backgroundColor: COLORS.lightGray,
+    marginTop: 20,
+  },
+  voiceLevelBar: {
+    backgroundColor: COLORS.primary,
+  },
+ 
+  recordButton: {
+    width: 120,
+    height: 40,
+    backgroundColor: COLORS.primary,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 20,
   },
-  answerButton: {
-    backgroundColor: 'lightgray',
-    padding: 10,
-    margin: 10,
-    borderRadius: 5,
+  recordingButton: {
+    backgroundColor: COLORS.error,
   },
-  answerText: {
-    fontSize: 16,
+  recordButtonText: {
+    fontFamily: FONT.medium,
+    fontSize: SIZES.large,
+    color: COLORS.gray,
   },
-  resultContainer: {
-    alignItems: 'center',
-  },
-  resultText: {
-    fontSize: 24,
-    marginBottom: 10,
+  recordPlayText: {
+    marginTop: 20,
+    fontFamily: FONT.medium,
+    fontSize: SIZES.large,
+    color: COLORS.white,
   },
 });
 
